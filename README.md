@@ -5,8 +5,8 @@ A ROS+Gazebo simulation package to control a human-like arm via:
 
 This package uses scripts developed in [Cube-Visualization](1). Sensor data for IMU control is transmitted via the [AndyIMU-2](2) android application.
 
-![drawing of the assem](link)
-![4 view bot](link)
+![drawing of the assem](https://github.com/meetm473/human_arm/blob/master/multimedia/Assem_drawing.PNG)
+![4 view bot](https://github.com/meetm473/human_arm/blob/master/multimedia/sw.png)
 
 ### Commands
 To view the robot in RViz
