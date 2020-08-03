@@ -1,0 +1,21 @@
+# Publish all joint states -----------------------------------
+ joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+# Position Controllers ---------------------------------------
+ body_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: body_joint
+  pid: {p: 100.0, i: 0.01, d: 10.0}
+ shoulder_move_1_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: shoulder_move_1_joint
+  pid: {p: 100.0, i: 0.01, d: 10.0}
+ upper_arm_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: upper_arm_joint
+  pid: {p: 100.0, i: 0.01, d: 10.0}
+ gripper_finger_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: gripper_finger_joint
+  pid: {p: 100.0, i: 0.01, d: 10.0}

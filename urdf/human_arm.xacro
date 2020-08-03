@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="human_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	
+  <xacro:macro name="transmission_block" params="joint_name">
+	  <transmission name="tran1">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <joint name="${joint_name}">
+	      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+	    </joint>
+	    <actuator name="motor1_${joint_name}">
+	      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	  </transmission>
+   </xacro:macro>	
+	
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="-3.1945E-35 0.024496 4.1754E-19"
+        rpy="0 0 0" />
+      <mass
+        value="26.312" />
+      <inertia
+        ixx="0.14512"
+        ixy="-1.851E-34"
+        ixz="-1.1318E-33"
+        iyy="0.27929"
+        iyz="-1.4632E-18"
+        izz="0.14512" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="base_link">
+		<material>Gazebo/ZincYellow</material>
+    </gazebo>
+  
+  <link name="body">
+    <inertial>
+      <origin
+        xyz="5.6474E-18 0.32466 1.8027E-18"
+        rpy="0 0 0" />
+      <mass
+        value="4.4061" />
+      <inertia
+        ixx="0.15877"
+        ixy="-1.1461E-34"
+        ixz="-5.1672E-36"
+        iyy="0.0079238"
+        iyz="3.48E-18"
+        izz="0.15877" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/body.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/body.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="body">
+		<material>Gazebo/WoodFloor</material>
+    </gazebo>
+  
+  <joint
+    name="body_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.05"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="body" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="30"
+      velocity="5" />
+    <dynamics
+      damping="30"
+      friction="0.3" />
+  </joint>
+  
+  <link
+    name="shoulder">
+    <inertial>
+      <origin
+        xyz="0 1.8186E-17 0.024183"
+        rpy="0 0 0" />
+      <mass
+        value="2.3865" />
+      <inertia
+        ixx="0.0032755"
+        ixy="-6.7071E-20"
+        ixz="9.8343E-20"
+        iyy="0.0025453"
+        iyz="1.2827E-18"
+        izz="0.0018949" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/shoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/shoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="shoulder">
+		<material>Gazebo/DarkYellow</material>
+    </gazebo>
+  
+  <joint
+    name="shoulder_joint"
+    type="fixed">
+    <origin
+      xyz="0 0.55 0.135"
+      rpy="3.1416 0 -1.5708" />
+    <parent
+      link="body" />
+    <child
+      link="shoulder" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  
+  <link
+    name="shoulder_move_1">
+    <inertial>
+      <origin
+        xyz="0.03 1.0081E-08 -1.8496E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.54422" />
+      <inertia
+        ixx="0.00017789"
+        ixy="-5.8805E-11"
+        ixz="-1.5366E-11"
+        iyy="0.00054987"
+        iyz="-1.9851E-11"
+        izz="0.00054987" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/shoulder_move_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.75686 0.73725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/shoulder_move_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="shoulder_move_1">
+		<material>Gazebo/Yellow</material>
+    </gazebo>
+  
+  <joint
+    name="shoulder_move_1_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.02"
+      rpy="3.1416 0 0" />
+    <parent
+      link="shoulder" />
+    <child
+      link="shoulder_move_1" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="0.19"
+      effort="30"
+      velocity="5" />
+    <dynamics
+      damping="30"
+      friction="0.3" />
+  </joint>
+  
+  <link
+    name="upper_arm">
+    <inertial>
+      <origin
+        xyz="-0.048479 -8.4265E-09 0.13577"
+        rpy="0 0 0" />
+      <mass
+        value="9.2964" />
+      <inertia
+        ixx="0.055721"
+        ixy="5.3221E-09"
+        ixz="0.028252"
+        iyy="0.092902"
+        iyz="5.3199E-09"
+        izz="0.042917" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/upper_arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/upper_arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="upper_arm_joint"
+    type="revolute">
+    <origin
+      xyz="0.08 0 0"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="shoulder_move_1" />
+    <child
+      link="upper_arm" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2"
+      upper="1.5708"
+      effort="10"
+      velocity="5" />
+    <dynamics
+      damping="30"
+      friction="0.5" />
+  </joint>
+  
+  <gazebo reference="upper_arm">
+		<material>Gazebo/RedBright</material>
+    </gazebo>
+  
+  <link
+    name="gripper_base">
+    <inertial>
+      <origin
+        xyz="0.045967 -8.9936E-06 -0.017797"
+        rpy="0 0 0" />
+      <mass
+        value="0.16718" />
+      <inertia
+        ixx="7.7538E-05"
+        ixy="3.7557E-08"
+        ixz="-2.6947E-06"
+        iyy="9.4496E-05"
+        iyz="-8.1158E-09"
+        izz="0.00010526" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/gripper_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.49804 0.49804 0.49804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/gripper_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="gripper_base_joint"
+    type="fixed">
+    <origin
+      xyz="-0.20136 0 0.19843"
+      rpy="-1.5708 0 -3.1416" />
+    <parent
+      link="upper_arm" />
+    <child
+      link="gripper_base" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+    
+    <gazebo reference="gripper_base">
+		<material>Gazebo/SkyBlue</material>
+    </gazebo>
+    
+  <link
+    name="gripper_finger">
+    <inertial>
+      <origin
+        xyz="0.065584 -1.9921E-05 -0.0094203"
+        rpy="0 0 0" />
+      <mass
+        value="0.075478" />
+      <inertia
+        ixx="1.4968E-05"
+        ixy="3.7557E-08"
+        ixz="-2.6947E-06"
+        iyy="5.9785E-05"
+        iyz="-8.1158E-09"
+        izz="6.8422E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/gripper_finger.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.49804 0.49804 0.49804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://human_arm/meshes/gripper_finger.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="gripper_finger_joint"
+    type="prismatic">
+    <origin
+      xyz="0.02 0 0.03"
+      rpy="3.1416 0 0" />
+    <parent
+      link="gripper_base" />
+    <child
+      link="gripper_finger" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0.055"
+      effort="30"
+      velocity="5" />
+    <dynamics
+      damping="30"
+      friction="0.3" />
+  </joint>
+
+    <gazebo reference="gripper_finger">
+		<material>Gazebo/Purple</material>
+    </gazebo>
+	
+  <xacro:transmission_block joint_name="body_joint"/>
+  <xacro:transmission_block joint_name="shoulder_move_1_joint"/>
+  <xacro:transmission_block joint_name="upper_arm_joint"/>
+  <xacro:transmission_block joint_name="gripper_finger_joint"/>	
+  
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/human_arm</robotNamespace>
+    </plugin>
+  </gazebo>
+	
+</robot>

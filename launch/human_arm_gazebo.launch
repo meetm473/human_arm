@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>	
+	<arg name="model_name" value="human_arm"/>
+	<arg name="debug" value="false"/>
+	<arg name="gui" value="true"/>
+	<arg name="paused" value="true"/>
+	<arg name="world" default="$(find human_arm)/worlds/my_world.world"/>
+	
+	<!-- Launching the world -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(arg world)"/>
+		<arg name="debug" value="$(arg debug)"/>
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="verbose" value="true"/>
+	</include>
+	
+    <group ns="$(arg model_name)">
+	 
+	  <!-- Loading controllers -->
+	  <rosparam file="$(find human_arm)/config/joint_control.yaml"
+			command="load"/>
+	 
+	  <!-- Loading robot_description -->	
+      <param name="robot_description" 
+		 command="$(find xacro)/xacro $(find human_arm)/urdf/$(arg model_name).xacro" />	
+			 
+	  <!-- Spawning human_arm -->				 
+      <node name="urdf_spawner" 
+		pkg="gazebo_ros"
+		type="spawn_model" 
+		respawn="false"
+		output="screen"
+		args="-urdf -model $(arg model_name) -param robot_description"/>
+		
+	  <!-- Spawning controllers -->
+	  <node name="controller_spawner" 
+		 pkg="controller_manager" 
+		 type="spawner"
+		 respawn="false"
+		 output="screen" 
+		 args="joint_state_controller
+			body_joint_controller
+			shoulder_move_1_joint_controller
+			upper_arm_joint_controller
+			gripper_finger_joint_controller"/>
+			
+	  
+      <!-- start robot state publisher -->
+	  <node pkg="robot_state_publisher" 
+			type="robot_state_publisher" 
+			name="robot_state_publisher" 
+			output="screen" >
+	   <param name="publish_frequency" 
+			   type="double" 
+			   value="50.0" />
+      </node>
+	</group>
+	
+</launch>
